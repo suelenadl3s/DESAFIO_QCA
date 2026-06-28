@@ -2,20 +2,40 @@
 
 ## Sobre o projeto
 
-Esse projeto foi desenvolvido por Suelen Ádles como parte de um desafio técnico de estágio da QCA.
+Este projeto foi desenvolvido por Suelen Ádles como parte de um desafio técnico de estágio da QCA.
 
-A ideia é ler arquivos PDF de faturas, extrair as informações necessárias, validar os dados e salvar tudo em um JSON local. Depois disso, são feitas algumas análises usando Pandas.
+A aplicação realiza a leitura de arquivos PDF contendo faturas, extrai as informações necessárias, valida os dados e organiza tudo em um formato estruturado para análise. Após o processamento, os dados são armazenados em um arquivo JSON local e utilizados para gerar análises com Pandas.
 
-O projeto foi separado em módulos para facilitar organização e manutenção.
+A estrutura foi organizada separando responsabilidades para facilitar manutenção e entendimento do fluxo.
 
-## O que ele faz
+## Fluxo do sistema
 
-- Lê arquivos PDF de uma pasta
-- Extrai informações das faturas: Order ID, Data, Customer ID, Produtos, Quantidade e Preço unitário
-- Valida os dados com Pydantic
-- Salva os dados em um arquivo JSON
-- Evita duplicidade usando Order ID
-- Faz análises com Pandas, como média do valor das faturas, produto mais comprado, total gasto por produto e lista de produtos com valores
+PDF → Extração (pdfplumber) → Validação (Pydantic) → Persistência (JSON) → Análise (Pandas)
+
+## Decisões de arquitetura
+
+O projeto foi dividido em camadas para manter o código organizado e facilitar futuras alterações.
+
+A camada ingestion é responsável pela leitura e extração dos dados dos PDFs.  
+A camada schemas é responsável pela validação e estruturação dos dados utilizando Pydantic.  
+A camada models define as entidades utilizadas no sistema.  
+A camada analytics é responsável pelas análises e agregações com Pandas.  
+O arquivo database.json é utilizado como persistência local dos dados processados.
+
+A separação foi feita para evitar acoplamento entre leitura, validação e análise.
+
+## Funcionalidades
+
+- Leitura de múltiplos arquivos PDF
+- Extração de dados das faturas: Order ID, Data, Customer ID, Produtos, Quantidade e Preço unitário
+- Validação dos dados com Pydantic
+- Persistência dos dados em JSON local
+- Controle de duplicidade via Order ID
+- Análises com Pandas:
+  - Média do valor das faturas
+  - Produto mais comprado
+  - Total gasto por produto
+  - Lista de produtos com valores unitários
 
 ## Estrutura do projeto
 
@@ -23,40 +43,34 @@ O projeto foi separado em módulos para facilitar organização e manutenção.
 ├── analytics/
 ├── data/
 │   └── pdfs/
-├── database/
+├── database.json
 ├── ingestion/
 ├── models/
 ├── schemas/
+├── src/
 ├── main.py
 ├── requirements.txt
 └── README.md
 
-## Tecnologias usadas
+## Tecnologias utilizadas
 
 Python 3.13  
 pdfplumber  
 Pydantic  
 Pandas  
 
-## Base utilizada no desenvolvimento
-
-Durante o desenvolvimento foram utilizadas documentações oficiais e referências para garantir boas práticas e organização do código:
-
-Python Documentation: https://docs.python.org/3/  
-pdfplumber: https://github.com/jsvine/pdfplumber  
-Pydantic: https://docs.pydantic.dev/  
-Pandas: https://pandas.pydata.org/docs/  
-PEP 8: https://peps.python.org/pep-0008/
-
-## Como rodar
+## Como executar o projeto
 
 Clone o repositório:
+
 git clone <url-do-repositorio>
 
-Entre na pasta:
-cd <nome-do-projeto>
+Acesse a pasta:
 
-Crie o ambiente virtual:
+cd DESAFIO_QCA
+
+Crie um ambiente virtual:
+
 python -m venv venv
 
 Ative o ambiente:
@@ -68,6 +82,7 @@ Linux/macOS:
 source venv/bin/activate
 
 Instale as dependências:
+
 pip install -r requirements.txt
 
 ## Execução
@@ -75,21 +90,15 @@ pip install -r requirements.txt
 Coloque os arquivos PDF na pasta data/pdfs/
 
 Execute o projeto:
+
 python main.py
 
 ## Resultado
 
-Ao final da execução o sistema exibe:
+Ao final da execução, o sistema gera um arquivo database.json contendo os dados processados e exibe análises com base nesses registros.
 
-- Média das faturas
-- Produto mais comprado
-- Total gasto por produto
-- Lista de produtos com valores
-
-Os dados são salvos em database.json.
-
-Se o arquivo não existir ele será criado automaticamente. Se já existir uma fatura com o mesmo Order ID, ela não será duplicada.
+As análises incluem média do valor das faturas, produto mais frequente, total gasto por produto e listagem de produtos com seus valores unitários.
 
 ## Observação
 
-O projeto foi construído com foco em organização, clareza e separação de responsabilidades entre ingestão, validação e análise de dados, seguindo boas práticas das documentações utilizadas.
+O projeto foi desenvolvido com foco em organização, clareza e separação de responsabilidades, seguindo uma estrutura em camadas para facilitar manutenção e evolução.
