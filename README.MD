@@ -4,7 +4,7 @@
 
 Este projeto foi desenvolvido por Suelen Ádles como parte de um desafio técnico de estágio da QCA.
 
-A aplicação realiza a leitura de arquivos PDF contendo faturas, extrai as informações necessárias, valida os dados e organiza tudo em um formato estruturado para análise. Após o processamento, os dados são armazenados em um arquivo JSON local e utilizados para gerar análises com Pandas.
+A aplicação realiza a leitura de arquivos PDF contendo faturas, extrai as informações necessárias, valida os dados e organiza tudo em um formato estruturado para análise. Toda a lógica do sistema está organizada dentro da pasta src/, que contém os módulos responsáveis por ingestão, validação, modelagem e análise dos dados. Após o processamento, os dados são armazenados em um arquivo JSON local e utilizados para gerar análises com Pandas.
 
 A estrutura foi organizada separando responsabilidades para facilitar manutenção e entendimento do fluxo.
 
@@ -40,15 +40,15 @@ A separação foi feita para evitar acoplamento entre leitura, validação e an�
 ## Estrutura do projeto
 
 .
-├── analytics/
 ├── data/
-│   └── pdfs/
-├── database.json
-├── ingestion/
-├── models/
-├── schemas/
+│ └── pdfs/
 ├── src/
-├── main.py
+│ ├── analytics/
+│ ├── ingestion/
+│ ├── models/
+│ ├── schemas/
+│ ├── database.json
+│ └── main.py
 ├── requirements.txt
 └── README.md
 
